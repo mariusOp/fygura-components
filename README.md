@@ -1,0 +1,27 @@
+# Fygura Components
+
+Free GSAP components for React and Next.js, by [Fygura](https://fygura.com).
+
+Each folder is one component with its files at the same paths as in a Next.js project (`src/...`). Copy them into your project, install GSAP, and import the component.
+
+| Component | Category | Live demo |
+|---|---|---|
+| [Frame Escape](./frame-escape) | Sliders | [fygura.com/components/sliders/frame-escape](https://fygura.com/en/components/sliders/frame-escape) |
+
+More components, including Pro ones: [fygura.com/components](https://fygura.com/en/components).
+
+## Requirements
+
+- Next.js 15+ (App Router), React 19, TypeScript
+- Tailwind CSS 4
+- The `@/` path alias pointing to `src/` (the Next.js default)
+
+```bash
+npm i gsap @gsap/react lucide-react
+```
+
+## License
+
+Free to use in an unlimited number of your own and your clients' projects. Don't resell or redistribute the code, or publish it as a template or component library. Full terms: [LICENSE.md](./LICENSE.md) and [fygura.com/license](https://fygura.com/en/license).
+
+Images in this repository are placeholders with the same file names and sizes as in the live demo. Replace them with your own.
