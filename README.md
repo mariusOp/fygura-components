@@ -2,7 +2,7 @@
 
 Free GSAP components for React and Next.js, by [Fygura](https://fygura.com).
 
-Each folder is one component with its files at the same paths as in a Next.js project (`src/...`). Copy them into your project, install GSAP, and import the component.
+Each folder is one component: a single `.tsx` file plus its `images`. Copy the folder into your project, install the dependencies, and render the component.
 
 | Component | Category | Live demo |
 |---|---|---|
@@ -14,7 +14,6 @@ More components, including Pro ones: [fygura.com/components](https://fygura.com/
 
 - Next.js 15+ (App Router), React 19, TypeScript
 - Tailwind CSS 4
-- The `@/` path alias pointing to `src/` (the Next.js default)
 
 ```bash
 npm i gsap @gsap/react lucide-react

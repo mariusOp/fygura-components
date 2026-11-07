@@ -10,31 +10,41 @@ An endless row of numbered gallery frames above a red carpet. Hover the middle f
 npm i gsap @gsap/react lucide-react
 ```
 
-Copy the `src` folder into your project (same paths), then render it on a page:
+Copy `FrameEscape.tsx` and the `images` folder anywhere in your project, then render it:
 
 ```tsx
-import FrameEscape from "@/widgets/slider/frame-escape/ui/frame-escape";
+import FrameEscape from "./components/frame-escape/FrameEscape";
 
 export default function Page() {
   return <FrameEscape />;
 }
 ```
 
-## Files
+Requires Next.js (App Router) with Tailwind CSS 4. The component fills the screen (`h-screen`).
 
-| File | What it does |
-|---|---|
-| `src/widgets/slider/frame-escape/ui/frame-escape.tsx` | Markup (server component): background, carpet, cards, captions, buttons |
-| `src/widgets/slider/frame-escape/ui/frame-escape-motion.tsx` | Motion (client): wrap, smooth scroll and drag, hover reveal timeline |
-| `src/widgets/slider/frame-escape/model/frames.ts` | Texts of the frames and the image pool |
-| `src/shared/lib/gsap.ts` | Registers GSAP plugins once |
-| `src/shared/assets/images/frame-escape/` | Placeholder images, same names and sizes as the demo |
+## Your own frames
+
+```tsx
+import FrameEscape, { type Frame } from "./components/frame-escape/FrameEscape";
+import lake from "./images/lake.png";
+
+const frames: Frame[] = [
+  { title: "Still Water", category: "Travel", description: "Morning on the lake.", image: lake },
+  // ...
+];
+
+<FrameEscape frames={frames} />;
+```
+
+Transparent PNG or WebP images with the subject in the middle work best. Without `frames`, the demo frames are shown.
 
 ## Customize
 
-- **Frames:** edit `texts` in `model/frames.ts`; images rotate from `imagePool`. Transparent PNG/WebP images with the subject in the middle work best.
-- **Timing and feel:** the `config` object at the top of `frame-escape-motion.tsx` (smoothing, wheel and drag sensitivity, spread, close speed).
+- **Timing and feel:** the `config` object at the top of the file (smoothing, wheel and drag sensitivity, spread, close speed).
+- **Colors:** the background gradient, `ink` (text) and the red line are Tailwind classes in the markup.
 - **Accessibility:** arrow keys, buttons, drag and wheel all move the row; `prefers-reduced-motion` jumps straight to each state.
+
+Images in `images/` are placeholders with the same names and sizes as in the live demo.
 
 ## License
 
