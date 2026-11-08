@@ -7,6 +7,7 @@ Each folder is one component: a single `.tsx` file plus its `images`. Copy the f
 | Component | Category | Live demo |
 |---|---|---|
 | [Frame Escape](./frame-escape) | Sliders | [fygura.com/components/sliders/frame-escape](https://fygura.com/en/components/sliders/frame-escape) |
+| [Anagram](./anagram) | Text animations | [fygura.com/components/text-animations/anagram](https://fygura.com/en/components/text-animations/anagram) |
 
 More components, including Pro ones: [fygura.com/components](https://fygura.com/en/components).
 
