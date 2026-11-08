@@ -22,6 +22,12 @@ export default function Page() {
 
 Requires React 19 with Tailwind CSS 4. The component fills the screen (`h-screen`). It advances on its own; click, Space or ArrowRight move to the next word.
 
+If your project switches dark mode with a `.dark` class, add this once to your CSS so the `dark:` variant follows it:
+
+```css
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
 ## Your own words
 
 ```tsx
