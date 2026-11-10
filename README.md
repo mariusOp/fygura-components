@@ -10,6 +10,8 @@ Each folder is one component: a single `.tsx` file plus its `images`. Copy the f
 | [Anagram](./anagram) | Text animations | [fygura.com/components/text-animations/anagram](https://fygura.com/en/components/text-animations/anagram) |
 | [Glitch](./glitch) | Text animations | [fygura.com/components/text-animations/glitch](https://fygura.com/en/components/text-animations/glitch) |
 | [Counter Curtain](./counter-curtain) | Preloaders | [fygura.com/components/preloaders/counter-curtain](https://fygura.com/en/components/preloaders/counter-curtain) |
+| [Cube Loader](./cube-loader) | Preloaders | [fygura.com/components/preloaders/cube-loader](https://fygura.com/en/components/preloaders/cube-loader) |
+| [Layout Shift](./layout-shift) | Cards | [fygura.com/components/cards/layout-shift](https://fygura.com/en/components/cards/layout-shift) |
 
 More components, including Pro ones: [fygura.com/components](https://fygura.com/en/components).
 
