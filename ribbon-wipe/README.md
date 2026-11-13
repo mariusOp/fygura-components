@@ -2,7 +2,7 @@
 
 A page transition made of thick rainbow ribbons. They draw in from the bottom right until the screen is covered, the page changes underneath, and they run on and pull away to the left, so the new page appears stripe by stripe. Built with GSAP DrawSVG.
 
-**Live demo:** [fygura.com/components/page-transitions/ribbon-wipe](https://fygura.com/en/components/page-transitions/ribbon-wipe). Every page change on fygura.com uses it too.
+**Live demo:** [fygura.com/components/page-transitions/ribbon-wipe](https://fygura.com/en/components/page-transitions/ribbon-wipe). On fygura.com it changes the clips in the home page hero.
 
 ## Install
 
