@@ -12,6 +12,7 @@ Each folder is one component: a single `.tsx` file plus its `images`. Copy the f
 | [Counter Curtain](./counter-curtain) | Preloaders | [fygura.com/components/preloaders/counter-curtain](https://fygura.com/en/components/preloaders/counter-curtain) |
 | [Cube Loader](./cube-loader) | Preloaders | [fygura.com/components/preloaders/cube-loader](https://fygura.com/en/components/preloaders/cube-loader) |
 | [Layout Shift](./layout-shift) | Cards | [fygura.com/components/cards/layout-shift](https://fygura.com/en/components/cards/layout-shift) |
+| [Retro Garage](./retro-garage) | Sliders | [fygura.com/components/sliders/retro-garage](https://fygura.com/en/components/sliders/retro-garage) |
 
 More components, including Pro ones: [fygura.com/components](https://fygura.com/en/components).
 
