@@ -4,19 +4,23 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
+import { ArrowRightIcon } from "lucide-react";
 
 gsap.registerPlugin(useGSAP, DrawSVGPlugin);
 
-export type RibbonWipePage = {
+export type RibbonWipeStep = {
   id: string;
-  label: string;
-  title: string;
-  text: string;
-  background: string;
-  ink: string;
+  // The big words on the screen; each step is one part of the sentence.
+  words: string;
 };
 
-type Props = { pages?: RibbonWipePage[] };
+type Props = { steps?: RibbonWipeStep[] };
+
+// Change the page colours of the demo here.
+const demoColors = {
+  background: "#FFFFFF",
+  ink: "#111110",
+};
 
 // One S-shaped curve, drawn from the bottom right towards the left. Both ends sit outside the
 // 1600x900 view, so the round caps never show as dots when a ribbon is empty.
@@ -85,39 +89,22 @@ export function drawRibbons(ribbons: Element[], mode: "cover" | "reveal", speed 
   );
 }
 
-const demoPages: RibbonWipePage[] = [
-  {
-    id: "studio",
-    label: "Studio",
-    title: "Good things take shape",
-    text: "A small studio for brands that like a little colour. Pick a page above and watch the ribbons carry you there.",
-    background: "#111110",
-    ink: "#FDEB82",
-  },
-  {
-    id: "work",
-    label: "Work",
-    title: "Selected work, 2024–2026",
-    text: "Identities, websites and motion for record labels, bakeries and one very serious sock company.",
-    background: "#FDEB82",
-    ink: "#111110",
-  },
-  {
-    id: "contact",
-    label: "Contact",
-    title: "Say hello",
-    text: "New projects start with a short call. Tell us what you are making and when it needs to be out in the world.",
-    background: "#3DAF80",
-    ink: "#111110",
-  },
+// A sentence told one step at a time; the ribbons carry the reader from step to step.
+const demoSteps: RibbonWipeStep[] = [
+  { id: "this", words: "This" },
+  { id: "is", words: "is" },
+  { id: "transition", words: "a transition." },
 ];
 
-const navButtonClass =
-  "px-2 py-3 font-mono text-[11px] tracking-[0.18em] uppercase underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current data-[active=true]:underline md:text-xs";
+const labelClass = "font-mono text-[11px] tracking-[0.18em] uppercase md:text-xs";
 
-// A small three-page site that switches pages through the ribbons.
+function formatNumber(value: number) {
+  return String(value).padStart(2, "0");
+}
+
+// A sentence in three steps; the Next button or a click anywhere moves on through the ribbons.
 export default function RibbonWipe(props: Props) {
-  const pages = props.pages ?? demoPages;
+  const steps = props.steps ?? demoSteps;
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
@@ -126,78 +113,73 @@ export default function RibbonWipe(props: Props) {
       if (!section) return;
 
       const find = gsap.utils.selector(section);
-      const pageElements = find("[data-page]") as HTMLElement[];
+      const stepElements = find("[data-step]") as HTMLElement[];
       const overlay = find("[data-overlay]")[0] as HTMLElement;
       const ribbons = find("[data-ribbon]");
-      let currentPage = pageElements[0];
+      let current = 0;
       let busy = false;
 
-      function showPage(page: HTMLElement) {
-        gsap.set(pageElements, { autoAlpha: 0 });
-        gsap.set(page, { autoAlpha: 1 });
-        pageElements.forEach((item) => item.setAttribute("aria-hidden", String(item !== page)));
-        currentPage = page;
+      function showStep(index: number) {
+        stepElements.forEach((step, stepIndex) => {
+          gsap.set(step, { autoAlpha: stepIndex === index ? 1 : 0 });
+          step.setAttribute("aria-hidden", String(stepIndex !== index));
+        });
+        current = index;
       }
 
-      // Cover the screen, swap the page underneath, then pull the ribbons away.
-      async function goTo(pageId: string, fromKeyboard: boolean) {
-        const nextPage = pageElements.find((page) => page.dataset.page === pageId);
-        if (busy || !nextPage || nextPage === currentPage) return;
-
+      // Cover the screen, swap to the next step underneath, then pull the ribbons away.
+      async function next() {
+        if (busy) return;
         busy = true;
         gsap.set(overlay, { autoAlpha: 1 });
         await drawRibbons(ribbons, "cover");
-        showPage(nextPage);
-        // Keyboard users keep their place in the new page's menu; a mouse click needs no focus ring.
-        if (fromKeyboard) nextPage.querySelector<HTMLElement>(`[data-go="${pageId}"]`)?.focus({ preventScroll: true });
+        showStep((current + 1) % stepElements.length);
         await drawRibbons(ribbons, "reveal");
         gsap.set(overlay, { autoAlpha: 0 });
         busy = false;
       }
 
-      function onClick(event: MouseEvent) {
-        const button = (event.target as Element).closest<HTMLElement>("[data-go]");
-        // A click from Enter or Space has no pointer position, so detail is 0.
-        if (button?.dataset.go) goTo(button.dataset.go, event.detail === 0);
-      }
-
-      section.addEventListener("click", onClick);
-      return () => section.removeEventListener("click", onClick);
+      // The Next button sits inside the section, so its click lands here too.
+      section.addEventListener("click", next);
+      return () => section.removeEventListener("click", next);
     },
-    { scope: root, dependencies: [pages] },
+    { scope: root, dependencies: [steps] },
   );
 
   return (
-    <section ref={root} aria-label="Ribbon Wipe" className="relative h-svh w-full overflow-clip">
-      {pages.map((page, index) => (
+    <section
+      ref={root}
+      aria-label="Ribbon Wipe"
+      aria-live="polite"
+      className="relative h-svh w-full cursor-pointer overflow-clip"
+      style={{ backgroundColor: demoColors.background, color: demoColors.ink }}
+    >
+      {steps.map((step, index) => (
         <article
-          key={page.id}
-          data-page={page.id}
+          key={step.id}
+          data-step={step.id}
           aria-hidden={index !== 0}
           className={index === 0 ? "absolute inset-0" : "invisible absolute inset-0"}
-          style={{ backgroundColor: page.background, color: page.ink }}
         >
-          <nav aria-label="Pages" className="absolute inset-x-0 top-0 flex justify-end gap-3 p-3 md:justify-center md:gap-6 md:py-6">
-            {pages.map((target) => (
-              <button key={target.id} type="button" data-go={target.id} data-active={target.id === page.id} className={navButtonClass}>
-                {target.label}
-              </button>
-            ))}
-          </nav>
-
-          <div className="absolute inset-x-5 bottom-10 md:inset-x-10 md:bottom-14">
-            <p className="font-mono text-[11px] tracking-[0.18em] uppercase opacity-70 md:text-xs">
-              {String(index + 1).padStart(2, "0")} / {page.label}
-            </p>
-            <h2 className="mt-4 max-w-[12ch] text-[16vw] leading-[0.86] font-extrabold tracking-[-0.03em] uppercase md:text-[9vw]">
-              {page.title}
-            </h2>
-            <p className="mt-6 max-w-md text-base leading-relaxed opacity-80 md:text-lg">{page.text}</p>
-          </div>
+          <p className={`${labelClass} absolute top-16 right-5 tabular-nums md:top-8 md:right-10`}>
+            {formatNumber(index + 1)} / {formatNumber(steps.length)}
+          </p>
+          <h2 className="absolute inset-x-5 top-1/2 -translate-y-1/2 text-[14vw] leading-[0.9] font-extrabold tracking-[-0.04em] md:inset-x-10 md:text-[15vw]">
+            {step.words}
+          </h2>
         </article>
       ))}
 
-      <div data-overlay aria-hidden className="pointer-events-none invisible absolute inset-0 z-10">
+      <button
+        type="button"
+        className={`${labelClass} absolute right-5 bottom-6 z-20 flex items-center gap-3 border-2 border-current px-5 py-3 transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current md:right-10 md:bottom-10`}
+        style={{ backgroundColor: demoColors.background }}
+      >
+        Next
+        <ArrowRightIcon className="size-4" />
+      </button>
+
+      <div data-overlay aria-hidden className="pointer-events-none invisible absolute inset-0 z-30">
         <Ribbons className="size-full" />
       </div>
     </section>
