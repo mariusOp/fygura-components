@@ -14,6 +14,7 @@ Each folder is one component: a single `.tsx` file plus its `images`. Copy the f
 | [Layout Shift](./layout-shift) | Cards | [fygura.com/components/cards/layout-shift](https://fygura.com/en/components/cards/layout-shift) |
 | [Retro Garage](./retro-garage) | Sliders | [fygura.com/components/sliders/retro-garage](https://fygura.com/en/components/sliders/retro-garage) |
 | [Ribbon Wipe](./ribbon-wipe) | Page transitions | [fygura.com/components/page-transitions/ribbon-wipe](https://fygura.com/en/components/page-transitions/ribbon-wipe) |
+| [Kinetic Posters](./kinetic-posters) | Text animations | [fygura.com/components/text-animations/kinetic-posters](https://fygura.com/en/components/text-animations/kinetic-posters) |
 
 More components, including Pro ones: [fygura.com/components](https://fygura.com/en/components).
 
